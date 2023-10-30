@@ -1,0 +1,532 @@
+DSA 
+
+***
+Data Structure is a way of collecting and organising data in such a way that we can perform operations on these data in an effective way.
+
+
+***
+An algorithm is a sequence of steps executed by a computer that takes an input and transforms it into a target output. 
+
+Every Algorithm must satisfy the following properties:
+Input- There should be 0 or more inputs supplied externally to the algorithm.
+Output- There should be atleast 1 output obtained.
+Definiteness- Every step of the algorithm should be clear and well defined.
+Finiteness- The algorithm should have finite number of steps.
+Correctness- Every step of the algorithm must generate a correct output.
+
+An algorithm is said to be efficient and fast, if it takes less time to execute and consumes less memory space. The performance of an algorithm is measured on the basis of following properties :
+
+Time Complexity
+Space Complexity
+
+
+***
+Types of Asymptotic Notations
+We use three types of asymptotic notations to represent the growth of any algorithm, as input increases:
+
+Big Theta (Θ) ----->Average case
+Big Oh(O) ----->Worst case or Upper bound
+Big Omega (Ω) ----->Best case or Lower bound
+
+
+***
+Linear Search
+
+###
+It is used for unsorted and unordered small list of elements.
+It has a time complexity of O(n)
+
+CODE:
+int linearSearch(int values[], int target, int n)
+{
+    for(int i = 0; i < n; i++)
+    {
+        if (values[i] == target) 
+        {       
+            return i; 
+        }
+    }
+    return -1;
+}
+
+
+***
+BINARY SEARCH (Better than Linear Search)
+
+###
+It is great to search through large sorted arrays.
+It has a time complexity of O(log n) 
+
+CODE:
+int binarySearch(int array[], int x, int low, int high) {
+  // Repeat until the pointers low and high meet each other
+  while (low <= high) {
+    int mid = low + (high - low) / 2;
+
+    if (array[mid] == x)
+      return mid;
+
+    if (array[mid] < x)
+      low = mid + 1;
+
+    else
+      high = mid - 1;
+  }
+
+  return -1;
+}
+
+
+***
+QUICK SORT
+
+###
+Quick Sort is one of the different Sorting Technique which is based on the concept of Divide and Conquer, just like merge sort.
+
+It is also called partition-exchange sort. This algorithm divides the list into three main parts:
+Elements less than the Pivot element
+Pivot element(Central element)
+Elements greater than the pivot element
+
+CODE:
+void quickSort(int a[], int beg, int end)  
+{  
+    int loc;  
+    if(beg<end)  
+    {  
+        loc = partition(a, beg, end);  
+        quickSort(a, beg, loc-1);  
+        quickSort(a, loc+1, end);  
+    }  
+}
+
+int partition(int a[], int beg, int end)  
+{  
+    int left, right, temp, loc, flag;     
+    loc = left = beg;  
+    right = end;  
+    flag = 0;  
+    while(flag != 1)  
+    {  
+        while((a[loc] <= a[right]) && (loc!=right))  
+        right--;  
+        if(loc==right)  
+        flag =1;  
+        else if(a[loc]>a[right])  
+        {  
+            temp = a[loc];  
+            a[loc] = a[right];  
+            a[right] = temp;  
+            loc = right;  
+        }  
+        if(flag!=1)  
+        {  
+            while((a[loc] >= a[left]) && (loc!=left))  
+            left++;  
+            if(loc==left)  
+            flag =1;  
+            else if(a[loc] < a[left])  
+            {  
+                temp = a[loc];  
+                a[loc] = a[left];  
+                a[left] = temp;  
+                loc = left;  
+            }  
+        }  
+    }  
+    return loc;  
+}  
+
+
+Worst Case Time Complexity [ Big-O ]: O(n2)
+Best Case Time Complexity [Big-omega]: O(n*log n)
+
+
+***
+MERGE SORT
+
+###
+In merge sort we follow the following steps:
+
+We take a variable p and store the starting index of our array in this. And we take another variable r and store the last index of array in it.
+Then we find the middle of the array using the formula (p + r)/2 and mark the middle index as q, and break the array into two subarrays, from p to q and from q + 1 to r index.
+Then we divide these 2 subarrays again, just like we divided our main array and this continues.
+Once we have divided the main array into subarrays with single elements, then we start merging the subarrays.
+
+Worst Case Time Complexity [ Big-O ]: O(n*log n)
+Best Case Time Complexity [Big-omega]: O(n*log n)
+
+
+CODE:
+void merge(int arr[], int left, int middle, int right) {
+    int i, j, k;
+    int n1 = middle - left + 1;
+    int n2 = right - middle;
+
+    int leftArr[n1], rightArr[n2];
+
+    for (i = 0; i < n1; i++)
+        leftArr[i] = arr[left + i];
+    for (j = 0; j < n2; j++)
+        rightArr[j] = arr[middle + 1 + j];
+
+    i = 0;
+    j = 0;
+    k = left;
+    while (i < n1 && j < n2) {
+        if (leftArr[i] <= rightArr[j]) {
+            arr[k] = leftArr[i];
+            i++;
+        } else {
+            arr[k] = rightArr[j];
+            j++;
+        }
+        k++;
+    }
+
+    while (i < n1) {
+        arr[k] = leftArr[i];
+        i++;
+        k++;
+    }
+
+    while (j < n2) {
+        arr[k] = rightArr[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(int arr[], int left, int right) {
+    if (left < right) {
+        int middle = left + (right - left) / 2;
+
+        mergeSort(arr, left, middle);
+        mergeSort(arr, middle + 1, right);
+
+        merge(arr, left, middle, right);
+    }
+}
+
+***
+STACK
+
+###
+Stack is a LIFO(Last in First out) structure
+push() function is used to insert new elements into the Stack and pop() function is used to remove an element from the stack. Both insertion and removal are allowed at only one end of Stack called Top.
+Stack is said to be in Overflow state when it is completely full and is said to be in Underflow state if it is completely empty.
+
+###
+CODE:
+int stack[MAX_SIZE];
+int top = -1;
+
+void push(int item) {
+    if (top >= MAX_SIZE - 1) {
+        printf("Stack Overflow\n");
+        return; // Stack is full
+    }
+
+    stack[++top] = item;
+}
+
+int pop() {
+    if (top < 0) {
+        printf("Stack Underflow\n");
+        return -1; // Stack is empty
+    }
+
+    return stack[top--];
+}
+
+
+***
+QUEUE
+
+###
+Queue is also an abstract data type or a linear data structure, just like stack data structure, in which the first element is inserted from one end called the REAR(also called tail), and the removal of existing element takes place from the other end called as FRONT(also called head)
+
+Queue is a FIFO( First in First Out ) structure.
+
+###
+CODE:
+int queue[MAX_SIZE];
+int front = -1;
+int rear = -1;
+
+void enqueue(int item) {
+    if (rear >= MAX_SIZE - 1) {
+        printf("Queue Overflow\n");
+        return; // Queue is full
+    }
+
+    if (front == -1) {
+        front = 0;
+    }
+
+    queue[++rear] = item;
+}
+
+int dequeue() {
+    if (front == -1) {
+        printf("Queue Underflow\n");
+        return -1; // Queue is empty
+    }
+
+    int item = queue[front];
+
+    if (front == rear) {
+        front = rear = -1;
+    } else {
+        front++;
+    }
+
+    return item;
+}
+
+
+
+***
+LINKED LIST
+
+###
+Linked List is a very commonly used linear data structure which consists of group of nodes in a sequence.
+Each node holds its own data and the address of the next node hence forming a chain like structure.
+
+###
+There are 3 different implementations of Linked List available, they are:
+Singly Linked List
+Doubly Linked List
+Circular Linked List
+
+###
+Singly Linked List
+Singly linked lists contain nodes which have a data part as well as an address part i.e. next, which points to the next node in the sequence of nodes.
+
+###
+Doubly Linked List
+In a doubly linked list, each node contains a data part and two addresses, one for the previous node and one for the next node.
+
+###
+Circular Linked List
+In circular linked list the last node of the list holds the address of the first node hence forming a circular chain.
+
+
+***
+CIRCULAR LINKED LIST
+
+###
+Circular Linked List is little more complicated linked data structure. In the circular linked list we can insert elements anywhere in the list whereas in the array we cannot insert element anywhere in the list because it is in the contiguous memory. In the circular linked list the previous element stores the address of the next element and the last element stores the address of the starting element.
+
+
+###
+Insertion at the Beginning
+Steps to insert a Node at beginning :
+The first Node is the Head for any Linked List.
+When a new Linked List is instantiated, it just has the Head, which is Null.
+Else, the Head holds the pointer to the fisrt Node of the List.
+When we want to add any Node at the front, we must make the head point to it.
+And the Next pointer of the newly added Node, must point to the previous Head, whether it be NULL(in case of new List) or the pointer to the first Node of the List.
+The previous Head Node is now the second Node of Linked List, because the new Node is added at the front.
+
+
+
+###
+Insertion at the End
+Steps to insert a Node at the end :
+If the Linked List is empty then we simply, add the new Node as the Head of the Linked List.
+If the Linked List is not empty then we find the last node, and make it' next to the new Node, and make the next of the Newly added Node point to the Head of the List.
+
+
+
+###
+Searching for an Element in the List
+In searhing we do not have to do much, we just need to traverse like we did while getting the last node, in this case we will also compare the data of the Node. If we get the Node with the same data, we will return it, otherwise we will make our pointer point the next Node, and so on.
+
+
+###
+Deleting a Node from the List
+Deleting a node can be done in many ways, like we first search the Node with data which we want to delete and then we delete it. In our approach, we will define a method which will take the data to be deleted as argument, will use the search method to locate it and will then remove the Node from the List.
+
+To remove any Node from the list, we need to do the following :
+
+If the Node to be deleted is the first node, then simply set the Next pointer of the Head to point to the next element from the Node to be deleted. And update the next pointer of the Last Node as well.
+If the Node is in the middle somewhere, then find the Node before it, and make the Node before it point to the Node next to it.
+If the Node is at the end, then remove it and make the new last node point to the head.
+
+
+***
+DOUBLE ENDED QUEUE
+
+###
+Double ended queue is a more generalized form of queue data structure which allows insertion and removal of elements from both the ends, i.e , front and back.
+
+
+###
+Insert Elements at Front
+First we check if the queue is full. If its not full we insert an element at front end by following the given conditions :
+
+If the queue is empty then intialize front and rear to 0. Both will point to the first element
+Else we decrement front and insert the element. Since we are using circular array, we have to keep in mind that if front is equal to 0 then instead of decreasing it by 1 we make it equal to SIZE-1.
+
+
+###
+Insert Elements at back
+Again we check if the queue is full. If its not full we insert an element at back by following the given conditions:
+
+If the queue is empty then intialize front and rear to 0. Both will point to the first element.
+Else we increment rear and insert the element. Since we are using circular array, we have to keep in mind that if rear is equal to SIZE-1 then instead of increasing it by 1 we make it equal to 0.
+
+
+###
+Delete First Element
+In order to do this, we first check if the queue is empty. If its not then delete the front element by following the given conditions :
+
+If only one element is present we once again make front and rear equal to -1.
+Else we increment front. But we have to keep in mind that if front is equal to SIZE-1 then instead of increasing it by 1 we make it equal to 0.
+
+
+###
+Delete Last Element
+Inorder to do this, we again first check if the queue is empty. If its not then we delete the last element by following the given conditions :
+
+If only one element is present we make front and rear equal to -1.
+Else we decrement rear. But we have to keep in mind that if rear is equal to 0 then instead of decreasing it by 1 we make it equal to SIZE-1.
+
+
+
+###
+Check if Queue is empty
+It can be simply checked by looking where front points to. If front is still intialized with -1, the queue is empty.
+
+
+###
+Check if Queue is full
+Since we are using circular array, we check for following conditions as shown in code to check if queue is full.
+
+
+###
+Return First Element
+If the queue is not empty then we simply return the value stored in the position which front points.
+
+
+###
+Return Last Element
+If the queue is not empty then we simply return the value stored in the position which rear points.
+
+
+***
+DOUBLY LINKED LIST
+
+
+###
+Doubly linked list is a type of linked list in which each node apart from storing its data has two links. The first link points to the previous node in the list and the second link points to the next node in the list. The first node of the list has its previous link pointing to NULL similarly the last node of the list has its next node pointing to NULL.
+
+###
+Insert Data in the beginning
+The prev pointer of first node will always be NULL and next will point to front.
+If the node is inserted is the first node of the list then we make front and end point to this node.
+Else we only make front point to this node.
+
+
+###
+Insert Data before a Node
+Let’s say we are inserting node X before Y. Then X’s next pointer will point to Y and X’s prev pointer will point the node Y’s prev pointer is pointing. And Y’s prev pointer will now point to X. We need to make sure that if Y is the first node of list then after adding X we make front point to X.
+
+
+###
+Insert Data after a Node
+Let’s say we are inserting node Y after X. Then Y’s prev pointer will point to X and Y’s next pointer will point the node X’s next pointer is pointing. And X’s next pointer will now point to Y. We need to make sure that if X is the last node of list then after adding Y we make end point to Y.
+
+
+###
+Insert Data in the end
+The next pointer of last node will always be NULL and prev will point to end.
+If the node is inserted is the first node of the list then we make front and end point to this node.
+Else we only make end point to this node.
+
+
+###
+Remove a Node
+Removal of a node is quite easy in Doubly linked list but requires special handling if the node to be deleted is first or last element of the list. Unlike singly linked list where we require the previous node, here only the node to be deleted is needed. We simply make the next of the previous node point to next of current node (node to be deleted) and prev of next node point to prev of current node. Look code for more details
+
+
+###
+Forward Traversal
+Start with the front node and visit all the nodes untill the node becomes NULL.
+
+
+###
+Backward Traversal
+Start with the end node and visit all the nodes until the node becomes NULL.
+
+
+***
+INTRODUCTION TO BINARY TREE
+
+###
+A binary tree is a hierarchical data structure in which each node has at most two children generally referred as left child and right child.
+
+Each node contains three components:
+Pointer to left subtree
+Pointer to right subtree
+Data element
+
+The topmost node in the tree is called the root. An empty tree is represented by NULL pointer
+
+Binary Tree: Common Terminologies
+Root: Topmost node in a tree.
+Parent: Every node (excluding a root) in a tree is connected by a directed edge from exactly one other node. This node is called a parent.
+Child: A node directly connected to another node when moving away from the root.
+Leaf/External node: Node with no children.
+Internal node: Node with atleast one children.
+Depth of a node: Number of edges from root to the node.
+Height of a node: Number of edges from the node to the deepest leaf. Height of the tree is the height of the root.
+
+###
+Types of Binary Trees (Based on Structure)
+1.Rooted binary tree: It has a root node and every node has atmost two children.
+2.Full binary tree: It is a tree in which every node in the tree has either 0 or 2 children.
+3.Perfect binary tree: It is a binary tree in which all interior nodes have two children and all leaves have the same depth or same level
+4.Complete binary tree: It is a binary tree in which every level, except possibly the last, is completely filled, and all nodes are as far left as possible.
+5.Balanced binary tree: A binary tree is height balanced if it satisfies the following constraints:
+The left and right subtrees' heights differ by at most one, AND
+The left subtree is balanced, AND
+The right subtree is balanced
+An empty tree is height balanced.
+6.Degenarate tree: It is a tree is where each parent node has only one child node. It behaves like a linked list.
+
+
+***
+BINARY SEARCH TREE
+
+
+###
+For a binary tree to be a binary search tree, the data of all the nodes in the left sub-tree of the root node should be less than the data of the root. The data of all the nodes in the right subtree of the root node should be greater than equal to the data of the root. As a result, the leaves on the farthest left of the tree have the lowest values, whereas the leaves on the right of the tree have the greatest values.
+
+
+###
+Traversing in a BST
+There are mainly three types of tree traversals:
+
+1. Pre-order Traversal:(NLR)
+In this technique, we do the following :
+
+Process data of root node.
+First, traverse left subtree completely.
+Then, traverse right subtree.
+
+2. Post-order Traversal:(LRN)
+In this traversal technique we do the following:
+
+First traverse left subtree completely.
+Then, traverse right subtree completely.
+Then, process data of node.
+
+3. In-order Traversal:(LNR)
+In in-order traversal, we do the following:
+
+First process left subtree.
+Then, process current root node.
+Then, process right subtree.
+
